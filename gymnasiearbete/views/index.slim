@@ -1,0 +1,46 @@
+- if @conn != nil
+    h1 = "hostname: #{@conn.hostname}"
+    p = "Number of total domains: #{@conn.num_of_defined_domains}"
+    p = "Number of active domains: #{@conn.num_of_domains}"
+
+    - @domains = @conn.list_all_domains(0)
+    - @active_domains = []
+    - @inactive_domains = []
+    - if @domains != nil
+      - for domain in @domains
+          - if domain.active?
+             - @active_domains << (domain)
+          - else
+             - @inactive_domains << (domain)
+
+    ul
+      h2 = "Active domains"
+      - if @active_domains.empty?
+        li = "none"
+      - else
+        - for domain in @active_domains
+          li
+            - if !domain.nil?
+               a href="/domain/#{domain.name}" = domain.name
+    ul
+      h2 = "Inactive domains"
+      - if @inactive_domains.empty?
+        li = "none"
+      - else
+        - for domain in @inactive_domains
+          li
+            - if domain != nil
+               a href="/domain/#{domain.name}" = domain.name
+    h1 = "New domain"
+    form action="/domain/new" method="post"
+      p = "Name of the new virtual machine"
+      input type="text" name="vm_name"
+    .flash = flash[:vm_created]
+    .flash = flash[:vm_not_created]
+- else
+    p = "Closed"
+
+
+
+
+- @conn.close

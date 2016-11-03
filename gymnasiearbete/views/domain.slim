@@ -1,0 +1,24 @@
+- if @domain != nil
+    h1 = "Domain name: #{@domain.name}"
+    p = "Active? #{@domain.active?}"
+    p = "Max Memory: #{@domain.max_memory} KB"
+    p = "CPU's: #{@domain.num_vcpus(0)}"
+    - if !@domain.active?
+        p = "Memory: Not available when machine is turned off"
+        a href="/domain/#{@domain.name}/start" = "Start machine"
+    - else
+        p = "Memory: #{@domain.info.memory} KB"
+        a href="/domain/#{@domain.name}/shutoff" = "Shutoff machine"
+    .flash = flash[:vm_turned_on]
+    .flash = flash[:vm_turned_off]
+
+
+- else
+    p = "You do not have access to this domain"
+
+
+
+
+
+
+- @conn.close
