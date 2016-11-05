@@ -14,13 +14,11 @@ configure :development do
 
   # Enable logging to console
   DataMapper::Logger.new($stdout, :debug)
-
   # Use SQLite
   DataMapper.setup(:default, "sqlite:///#{Dir.pwd}/db/app-dev.sqlite")
 
   # Enable pretty printing of Slim-generated HTML (for debugging)
   Slim::Engine.set_options pretty: true, sort_attrs: false
-
 end
 
 # Used during production (on Heroku), when your application is 'live'

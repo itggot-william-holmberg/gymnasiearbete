@@ -12,20 +12,20 @@ class Test
 
   def new_virtual_machine(name)
     conn = get_connection
-    @UUID = "95a5c047-6457-2c09-e5ff-927cdf34e17b"
+    #@UUID = "95a5c047-6457-2c09-e5ff-927cdf34e17b"
     @MAX_MEMORY = "1048576"
     @MEMORY = "1048576"
     @INSTALLATION_IMAGE = "/iso/debian8gnome.iso"
-    @MAC_ADDRESS = '12:54:01:60:3c:95'
+    #@MAC_ADDRESS = '12:54:01:60:3c:95'
+    #<mac address='#{@MAC_ADDRESS}'/>
     @GUEST_DISK = "/var/lib/libvirt/images/#{name}.qcow2"
     # create the guest disk
     `rm -f #{@GUEST_DISK} ; qemu-img create -f qcow2 #{@GUEST_DISK} 5G`
-
+  #  <uuid>#{@UUID}</uuid>
     #Should be random generated in the future.
     new_dom_xml = <<EOF
 <domain type='kvm'>
   <name>#{name}</name>
-  <uuid>#{@UUID}</uuid>
   <memory>#{@MAX_MEMORY}</memory>
   <currentMemory>#{@MEMORY}</currentMemory>
   <vcpu>1</vcpu>
@@ -57,7 +57,6 @@ class Test
       <target dev='vda' bus='virtio'/>
     </disk>
     <interface type='bridge'>
-      <mac address='#{@MAC_ADDRESS}'/>
       <source bridge='br0'/>
       <model type='rtl8139'/>
       <target dev='vnet0'/>

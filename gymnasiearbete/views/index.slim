@@ -1,7 +1,7 @@
 - if @conn != nil
     h1 = "hostname: #{@conn.hostname}"
-    p = "Number of total domains: #{@conn.num_of_defined_domains}"
     p = "Number of active domains: #{@conn.num_of_domains}"
+    p = "Number of inactive domains: #{@conn.num_of_defined_domains}"
 
     - @domains = @conn.list_all_domains(0)
     - @active_domains = []
@@ -37,6 +37,7 @@
       input type="text" name="vm_name"
     .flash = flash[:vm_created]
     .flash = flash[:vm_not_created]
+    .flash = flash[:vm_deleted]
 - else
     p = "Closed"
 

@@ -8,10 +8,10 @@
         a href="/domain/#{@domain.name}/start" = "Start machine"
     - else
         p = "Memory: #{@domain.info.memory} KB"
-        a href="/domain/#{@domain.name}/shutoff" = "Shutoff machine"
+        a href="/domain/#{@domain.name}/shutoff" onclick="return confirm('Are you sure?')" = "Shutoff machine"
     .flash = flash[:vm_turned_on]
     .flash = flash[:vm_turned_off]
-
+    a href="/domain/#{@domain.name}/delete" onclick="return confirm('Are you sure?')" = "Destroy machine"
 
 - else
     p = "You do not have access to this domain"
