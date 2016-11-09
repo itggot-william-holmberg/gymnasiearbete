@@ -10,6 +10,22 @@ class App < Sinatra::Base
   	slim :index
   end
 
+  get '/login' do
+    slim :login
+  end
+
+  post '/login' do
+    @user = User.first(:username => params[:username])
+    if @user.nil? || @user.password != params[:password]
+      @user = nil
+      session[:user_id] = nil
+      flash[:failed_login] = "Wrong username or password!"
+    else
+      session[:user_id] = @user.id
+      flash[:successfull_login] = "You successfully logged in!"
+    end
+  end
+
   get '/domain/:vm' do |vm|
     #only give @conn to user who has access.
     @conn = Test.new.get_connection
@@ -25,7 +41,7 @@ class App < Sinatra::Base
     #only give @conn to user who has access.
     test = Test.new
     vm_name = params[:vm_name]
-
+    os_type = params[:select_os]
       begin
         if !test.get_connection.lookup_domain_by_name(vm_name).nil?
           flash[:vm_not_created] = "Cannot create VM. Please try a different name"
@@ -37,7 +53,7 @@ class App < Sinatra::Base
       end
 
       begin
-        test.new_virtual_machine(vm_name)
+        test.new_virtual_machine(vm_name, os_type)
         flash[:vm_created] = "VM was successfully created"
       rescue Libvirt::DefinitionError
         flash[:vm_not_created] = "UUID already exists. Cannot create VM"
@@ -96,6 +112,8 @@ class App < Sinatra::Base
       "Could not delete the virtual machine. Either you lack access or the domain does not exist."
     end
   end
+
+
 
 
 end

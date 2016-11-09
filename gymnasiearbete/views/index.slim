@@ -32,9 +32,13 @@
             - if domain != nil
                a href="/domain/#{domain.name}" = domain.name
     h1 = "New domain"
-    form action="/domain/new" method="post"
+    form action="/domain/new" method="post" id="new_machine_form"
       p = "Name of the new virtual machine"
       input type="text" name="vm_name"
+    p = "Select which OS type you want to use"
+    select name="select_os" form="new_machine_form"
+      option value="DEBIAN" = "Debian"
+      option value="OSBOT_PREINSTALLED" = "OSBOT_PREINSTALLED"
     .flash = flash[:vm_created]
     .flash = flash[:vm_not_created]
     .flash = flash[:vm_deleted]
