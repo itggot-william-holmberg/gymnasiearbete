@@ -1,9 +1,12 @@
 require 'libvirt'
 class Test
 
+
   def get_connection
     begin
-      conn = Libvirt::open("qemu:///system")
+      #conn = Libvirt::open("qemu:///system")
+      #conn = Libvirt::open("qemu+ssh://william@46.194.63.225/system?socket=/var/run/libvirt/libvirt-sock")
+      conn = Libvirt::open("qemu+ssh://william@192.168.0.126/system?socket=/var/run/libvirt/libvirt-sock")
       return conn
     rescue
       return nil
@@ -166,4 +169,3 @@ EOF
 
 
 end
-
