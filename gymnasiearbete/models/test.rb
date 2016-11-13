@@ -1,5 +1,11 @@
 require 'libvirt'
+require 'net/ssh'
 class Test
+
+  @hostname = "192.168.0.126"
+  @username = "william"
+  @password = "lifebook3"
+  @cmd = "rm -f #{@GUEST_DISK} ; qemu-img create -f qcow2 #{@GUEST_DISK} 5G"
 
 
   def get_connection
@@ -25,7 +31,15 @@ class Test
       #<mac address='#{@MAC_ADDRESS}'/>
       @GUEST_DISK = "/var/lib/libvirt/images/#{name}.qcow2"
       # create the guest disk
-      `rm -f #{@GUEST_DISK} ; qemu-img create -f qcow2 #{@GUEST_DISK} 5G`
+      #`rm -f #{@GUEST_DISK} ; qemu-img create -f qcow2 #{@GUEST_DISK} 5G`
+      begin
+        ssh = Net::SSH.start(@hostname, @username, :password => @password)
+        res = ssh.exec!(@cmd)
+        ssh.close
+        puts res
+      rescue
+        puts "Unable to connect to #{@hostname} using #{@username}/#{@password}"
+      end
       #  <uuid>#{@UUID}</uuid>
       #Should be random generated in the future.
       new_dom_xml = <<EOF

@@ -1,0 +1,12 @@
+- if !@user.nil?
+  h1 = "New domain"
+  form action="/order/new" method="post" id="new_machine_form"
+    p = "Name of the new virtual machine"
+    input type="text" name="vm_name"
+  p = "Select which OS type you want to use"
+  select name="os_id" form="new_machine_form"
+    - @os.each do |os|
+      option value=os.id = "#{os.name}"
+  .flash = flash[:vm_not_created]
+- else
+  p = "You are not supposed to be here."

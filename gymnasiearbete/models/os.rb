@@ -1,13 +1,10 @@
-class Container
+class Os
   include DataMapper::Resource
 
   property :id,         Serial
   property :name,       String
   property :created_at, DateTime
+  property :desc,       String
 
-  belongs_to :user
-  belongs_to :os
-  has 1, :order
-
-
+  has n, :containers
 end
