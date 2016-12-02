@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title Application
+    link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet"
+    link rel="stylesheet" type='text/css' href="/css/style.css"
+    script src="/js/jquery-3.1.1.min.js"
+    script type="text/javascript" src="/js/login.js"
+
+
+  body
+    .warning_flash = flash[:failed_login]
+    .successfully_flash = flash[:successfull_login]
+
+
+
+
+
+==yield

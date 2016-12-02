@@ -12,7 +12,7 @@ class Seeder
   end
 
   def self.container
-    Container.create(:name => "TestVM", :created_at => Time.now, :user_id => 1, :os_id => 1)
+    Container.create(:name => "TestVM", :created => Time.now, :user_id => 1, :os_id => 1)
   end
 
   def self.os

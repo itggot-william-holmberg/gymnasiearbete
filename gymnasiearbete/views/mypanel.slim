@@ -1,0 +1,15 @@
+- if @user
+  .container
+    table
+      thead
+        tr
+          th Name
+          th IP Address
+          th Created
+      tbody
+      - if !@containers.nil?
+        - @containers.each do |container|
+          tr
+            td = container.name
+            td 127.0.0.1
+            td = container.created

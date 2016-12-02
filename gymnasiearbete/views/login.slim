@@ -1,23 +1,8 @@
 - if @user.nil?
-  .flash = flash[:failed_login]
-  form action="/login" method="post" id="create_account_form"
-    p ="Username"
-    input value="Username" name="username"
-    p = "Password"
-    input type="password" value="password" name="password"
-    button
-
-- else
-  .flash = flash[:successfull_login]
-  h1 = "Orders"
-  -@orders.each do |order|
-    h3 = "Order id: #{order.id}"
-    p = "Created by: #{order.user.username}"
-    p = "Order date: #{order.order_date}"
-    p = "Container name: #{order.container.name}"
-
-  h1 = "Containers"
-  -@containers.each do |container|
-    h3 = "Container name: #{container.name}"
-    p = "Created at: #{container.created_at}"
-    p = "OS: #{container.os.name}"
+  .login
+    .logo Project Iaox
+    form action="/login" method="post" id="create_account_form"
+      .text Log In
+      input value="Username" name="username"
+      input type="password" value="password" name="password"
+      input type="submit" value="Login"

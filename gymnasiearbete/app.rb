@@ -6,15 +6,38 @@ class App < Sinatra::Base
 
   get '/' do
     #only give @conn to user who has access.
-    @conn = Test.new.get_connection
+    #@conn = Test.new.get_connection
   	slim :index
   end
 
   get '/login' do
     @user = User.get(session[:user]) if session[:user]
+    if @user
+      redirect '/mypanel'
+    else
+      slim :login
+    end
+  end
+
+
+  get '/mypanel' do
+    @user = User.get(session[:user]) if session[:user]
+    if !@user
+      redirect '/login'
+    end
     @orders = Order.all(:user => @user) if !@user.nil?
     @containers = Container.all(:user => @user) if !@user.nil?
-    slim :login
+    slim :mypanel
+  end
+
+  get '/orders' do
+    @user = User.get(session[:user]) if session[:user]
+    if !@user
+      redirect '/login'
+    end
+    @orders = Order.all(:user => @user) if !@user.nil?
+    @containers = Container.all(:user => @user) if !@user.nil?
+    slim :orders
   end
 
   get '/order' do
@@ -47,7 +70,7 @@ class App < Sinatra::Base
         redirect back
       end
 
-      @new_container = Container.create(:name => vm_name, :created_at => Time.now, :user_id => @user.id, :os_id => os_id)
+      @new_container = Container.create(:name => vm_name, :created => Time.now, :user_id => @user.id, :os_id => os_id)
 
       if !@new_container.nil?
         @new_order = Order.create(:order_date => Time.now, :user => @user, :container_id => @new_container.id)

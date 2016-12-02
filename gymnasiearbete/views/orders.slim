@@ -1,0 +1,14 @@
+- if @user
+  h1 = "Orders"
+  - if @orders
+    -@orders.each do |order|
+      h3 = "Order id: #{order.id}"
+      p = "Created by: #{order.user.username}"
+      p = "Order date: #{order.order_date}"
+      p = "Container name: #{order.container.name}"
+
+    h1 = "Containers"
+    -@containers.each do |container|
+      h3 = "Container name: #{container.name}"
+      p = "Created at: #{container.created_at}"
+      p = "OS: #{container.os.name}"
