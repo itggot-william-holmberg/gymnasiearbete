@@ -1,45 +1,40 @@
 require 'libvirt'
-require 'net/ssh'
 class Test
-
-  @hostname = "192.168.0.126"
-  @username = "william"
-  @password = "lifebook3"
-  @cmd = "rm -f #{@GUEST_DISK} ; qemu-img create -f qcow2 #{@GUEST_DISK} 5G"
-
 
   def get_connection
     begin
-      #conn = Libvirt::open("qemu:///system")
-      #conn = Libvirt::open("qemu+ssh://william@46.194.63.225/system?socket=/var/run/libvirt/libvirt-sock")
-      conn = Libvirt::open("qemu+ssh://william@192.168.0.126/system?socket=/var/run/libvirt/libvirt-sock")
+      conn = Libvirt::open("qemu:///system")
       return conn
     rescue
       return nil
     end
   end
 
-  def new_virtual_machine(name, os)
+  def get_memory(memory)
+    if memory == "1"
+      return "256000"
+    elsif memory == "2"
+      return "512000"
+    elsif memory == "3"
+      return "1024000"
+    elsif memory == "4"
+      return "2048048"
+    end
+    return "100000"
+  end
 
+  def new_virtual_machine(conn,name, os, memory)
+    real_memory = get_memory(memory)
     if os == "DEBIAN"
-      conn = get_connection
       #@UUID = "95a5c047-6457-2c09-e5ff-927cdf34e17b"
-      @MAX_MEMORY = "1048576"
-      @MEMORY = "1048576"
+      @MAX_MEMORY = "2048048"
+      @MEMORY = real_memory
       @INSTALLATION_IMAGE = "/iso/debian8gnome.iso"
       #@MAC_ADDRESS = '12:54:01:60:3c:95'
       #<mac address='#{@MAC_ADDRESS}'/>
       @GUEST_DISK = "/var/lib/libvirt/images/#{name}.qcow2"
       # create the guest disk
-      #`rm -f #{@GUEST_DISK} ; qemu-img create -f qcow2 #{@GUEST_DISK} 5G`
-      begin
-        ssh = Net::SSH.start(@hostname, @username, :password => @password)
-        res = ssh.exec!(@cmd)
-        ssh.close
-        puts res
-      rescue
-        puts "Unable to connect to #{@hostname} using #{@username}/#{@password}"
-      end
+      `rm -f #{@GUEST_DISK} ; qemu-img create -f qcow2 #{@GUEST_DISK} 5G`
       #  <uuid>#{@UUID}</uuid>
       #Should be random generated in the future.
       new_dom_xml = <<EOF
@@ -104,6 +99,7 @@ EOF
       # start the domain
       puts "Starting permanent domain ruby-libvirt-tester"
       dom.create
+      return dom
 
     elsif os == "OSBOT_PREINSTALLED"
 
@@ -183,3 +179,4 @@ EOF
 
 
 end
+

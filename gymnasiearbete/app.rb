@@ -6,7 +6,7 @@ class App < Sinatra::Base
 
   get '/' do
     #only give @conn to user who has access.
-    #@conn = Test.new.get_connection
+    @conn = Test.new.get_connection
   	slim :index
   end
 
@@ -54,39 +54,57 @@ class App < Sinatra::Base
 
 
   post '/order/new' do
-    @user = User.get(session[:user]) if session[:user]
-    if !@user.nil?
-      vm_name = params[:vm_name]
-      os_id = params[:os_id]
+    test = Test.new
+    conn = test.get_connection
+    if !conn.nil?
+      @user = User.get(session[:user]) if session[:user]
+      if !@user.nil?
+        vm_name = params[:vm_name]
+        os_id = params[:os_id]
+        memory = params[:memory]
+        begin
+          if !test.get_connection.lookup_domain_by_name(vm_name).nil?
+            flash[:warning_flash] = "Cannot create VM. Please try a different name"
+            redirect back
+            return
+          end
+        rescue
 
-      begin
-        if !Container.first(:name => vm_name).nil?  # && if !test.get_connection.lookup_domain_by_name(vm_name).nil?
+        end
+        begin
+          if !Container.first(:name => vm_name).nil?
+            flash[:warning_flash] = "Cannot create container. Please try a different name"
+            redirect back
+            return
+          end
+        rescue
           flash[:warning_flash] = "Cannot create container. Please try a different name"
           redirect back
-          return
         end
-      rescue
-        flash[:warning_flash] = "Cannot create container. Please try a different name"
-        redirect back
-      end
+        container = test.new_virtual_machine(conn, vm_name, "DEBIAN", memory)
+        if !container.nil?
+          @new_container = Container.create(:name => vm_name, :created => Time.now, :user_id => @user.id, :os_id => os_id)
 
-      @new_container = Container.create(:name => vm_name, :created => Time.now, :user_id => @user.id, :os_id => os_id)
+          if !@new_container.nil?
+            @new_order = Order.create(:order_date => Time.now, :user => @user, :container_id => @new_container.id)
+          else
+            flash[:warning_flash] = "Cannot create container. Please try again"
+            redirect back
+          end
 
-      if !@new_container.nil?
-        @new_order = Order.create(:order_date => Time.now, :user => @user, :container_id => @new_container.id)
+          if !@new_order.nil?
+            flash[:successfully_flash] = "Container was succesfully created."
+            redirect back
+          else
+            flash[:warning_flash] = "Cannot create container. Please try again"
+            redirect back
+          end
+        end
       else
-        flash[:warning_flash] = "Cannot create container. Please try again"
+        flash[:warning_flash] = "Cannot create VM. There is something wrong with the host"
         redirect back
       end
-
-      if !@new_order.nil?
-        flash[:successfully_flash] = "Container was succesfully created."
-      else
-        flash[:warning_flash] = "Cannot create container. Please try again"
-        redirect back
       end
-    end
-
   end
 
   get '/vnc' do
@@ -184,8 +202,13 @@ class App < Sinatra::Base
     end
 
     if !@domain.nil?
-      @domain.undefine(1)
-      @domain.destroy
+      begin
+        @domain.undefine(1)
+        @domain.destroy
+      rescue
+
+
+      end
       flash[:successfully_flash] = "VM was sucessfully deleted"
       redirect '/'
     else
