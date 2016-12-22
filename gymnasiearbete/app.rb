@@ -61,12 +61,12 @@ class App < Sinatra::Base
 
       begin
         if !Container.first(:name => vm_name).nil?  # && if !test.get_connection.lookup_domain_by_name(vm_name).nil?
-          flash[:container_not_created] = "Cannot create container. Please try a different name"
+          flash[:warning_flash] = "Cannot create container. Please try a different name"
           redirect back
           return
         end
       rescue
-        flash[:container_not_created] = "Cannot create container. Please try a different name"
+        flash[:warning_flash] = "Cannot create container. Please try a different name"
         redirect back
       end
 
@@ -75,14 +75,14 @@ class App < Sinatra::Base
       if !@new_container.nil?
         @new_order = Order.create(:order_date => Time.now, :user => @user, :container_id => @new_container.id)
       else
-        flash[:container_not_created] = "Cannot create container. Please try again"
+        flash[:warning_flash] = "Cannot create container. Please try again"
         redirect back
       end
 
       if !@new_order.nil?
-        flash[:container_created] = "Container was succesfully created."
+        flash[:successfully_flash] = "Container was succesfully created."
       else
-        flash[:container_not_created] = "Cannot create container. Please try again"
+        flash[:warning_flash] = "Cannot create container. Please try again"
         redirect back
       end
     end
@@ -98,10 +98,10 @@ class App < Sinatra::Base
     if @user.nil? || @user.password != params[:password]
       @user = nil
       session[:user] = nil
-      flash[:failed_login] = "Wrong username or password."
+      flash[:warning_flash] = "Wrong username or password."
     else
       session[:user] = @user.id
-      flash[:successfull_login] = "You successfully logged in."
+      flash[:successfully_flash] = "You successfully logged in."
     end
     redirect back
   end
@@ -124,7 +124,7 @@ class App < Sinatra::Base
     os_type = params[:select_os]
       begin
         if !test.get_connection.lookup_domain_by_name(vm_name).nil?
-          flash[:vm_not_created] = "Cannot create VM. Please try a different name"
+          flash[:warning_flash] = "Cannot create VM. Please try a different name"
           redirect back
           return
         end
@@ -151,7 +151,7 @@ class App < Sinatra::Base
 
     if !@domain.nil? && !@domain.active?
       @domain.create
-      flash[:vm_turned_on] = "VM was sucessfully turned on"
+      flash[:successfully_flash] = "VM was sucessfully turned on"
       redirect back
     else
       "Could not start the virtual machine. Either you lack access or the domain is already turned on."
@@ -168,7 +168,7 @@ class App < Sinatra::Base
 
     if !@domain.nil? && @domain.active?
       @domain.destroy
-      flash[:vm_turned_off] = "VM was sucessfully turned off"
+      flash[:warning_flash] = "VM was sucessfully turned off"
       redirect back
     else
       "Could not shutoff the virtual machine. Either you lack access or the domain is already turned off."
@@ -186,7 +186,7 @@ class App < Sinatra::Base
     if !@domain.nil?
       @domain.undefine(1)
       @domain.destroy
-      flash[:vm_deleted] = "VM was sucessfully deleted"
+      flash[:successfully_flash] = "VM was sucessfully deleted"
       redirect '/'
     else
       "Could not delete the virtual machine. Either you lack access or the domain does not exist."

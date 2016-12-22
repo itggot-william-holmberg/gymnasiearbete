@@ -9,10 +9,18 @@ html
 
 
   body
-    .warning_flash = flash[:failed_login]
-    .successfully_flash = flash[:successfull_login]
-
-
+    .warning_flash = flash[:warning_flash]
+    .successfully_flash = flash[:successfully_flash]
+    .header
+      ul
+        li
+          a href="/" Home
+        li
+          a href="/mypanel" MyPanel
+        li
+          a href="/orders" Orders
+        li
+          a href="/order" Order
 
 
 
