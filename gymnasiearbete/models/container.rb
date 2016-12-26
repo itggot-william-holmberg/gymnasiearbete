@@ -4,6 +4,7 @@ class Container
   property :id,             Serial
   property :name,           String
   property :time_created,   Time
+  property :disk_size,      String
   property :cpu,            String
   property :memory,         String
   property :active,         Boolean

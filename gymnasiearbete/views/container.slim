@@ -19,6 +19,7 @@
         h1 = "Domain name: #{@db_container.name}"
         h1 = "Max Memory: #{@db_container.memory} KB"
         h1 = "CPU's: #{@db_container.cpu}"
+        h1 = "Disk Size: #{@db_container.disk_size} GB"
         h1 = "Hours active: #{@db_container.hours_active(@db_container.time_created,@db_container.time_deleted) }"
         p
           a href="/container/#{@db_container.name}/delete" onclick="return confirm('Are you sure?')" = "Destroy machine"

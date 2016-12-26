@@ -1,12 +1,19 @@
 :root {
     --main-color: white;
     --background-color: #2d70ff;
-    --text-color: #787878;
+    --text-color: black;
 
+}
+
+*{
+    margin: 0px;
+    padding: 0px;
 }
 body {
     background-color: var(--background-color);
     font-family: 'Poiret One', cursive;
+    text-color: black;
+
 }
 .logo{
     color: white;
@@ -24,9 +31,31 @@ body {
     box-sizing: border-box;
 }
 
+
+input[type=submit]{
+    background-color: #90EE90;
+    border-style: none;
+    cursor:pointer;
+}
+
+input[type=submit]:hover{
+    background-color: #8dcf8d;
+}
+
 .div a {
     display: block;
     text-align: center;
+    color: black;
+    text-decoration: none;
+    height: 20px;
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 6px;
+}
+
+.div a:hover {
+    background-color: lightgrey;
 }
 
 .text {
@@ -46,24 +75,28 @@ input {
 }
 
 .warning_flash{
-     display: none;
-     height: 30px;
-     text-color: red;
-     background-color: #f9ff2f;
-     text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    left: 0;
+    right: 0;
+    display: none;
+    height: 22px;
+    text-color: white;
+    background-color: rgba(255, 255, 0, 0.39);
+    text-align: center;
  }
 .successfully_flash{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
     display: none;
-    height: 30px;
+    height: 22px;
     text-color: red;
-    background-color: #f9ff2f;
+    background-color: #8dcf8d;
     text-align: center;
 }
 
-input[type=submit]{
-    background-color: #00ff00;
-    border-style: none;
-}
 
 .container {
     background-color: white;
@@ -86,7 +119,7 @@ table {
     width: 90%;
 }
 table, th, td {
-    text-color: white;
+    color: black;
     border: 0.5px solid black;
     text-align: center;
 }
@@ -123,10 +156,37 @@ th {
     visibility: hidden;
 }
 
-li {
-    display: block;
-    background-color: red;
-    height: 300px;
-    width: 300px;
+
+.header {
+    height: 50px;
+    width: 100%;
+    position: relative;
 }
 
+.header_list {
+    width: 40%;
+    list-style-type: none;
+    float: right;
+
+}
+.header_list li {
+    margin-right: 10px;
+    height: 55px;
+    width: 120px;
+    display: block;
+    float: left;
+    cursor: pointer;
+}
+
+.header_list li:hover {
+    background-color: white;
+
+}
+
+.header_list li a {
+    display: block;
+    margin-top: 15px;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+}

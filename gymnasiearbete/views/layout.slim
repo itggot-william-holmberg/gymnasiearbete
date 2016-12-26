@@ -12,7 +12,7 @@ html
     .warning_flash = flash[:warning_flash]
     .successfully_flash = flash[:successfully_flash]
     .header
-      ul
+      ul class="header_list"
         li
           a href="/" Home
         li
@@ -21,8 +21,9 @@ html
           a href="/orders" Orders
         li
           a href="/container/create" Create container
-    - if !@user.nil?
-      a href="/logout" Logout
+        - if !@user.nil?
+          li
+            a href="/logout" Logout
 
 
 ==yield

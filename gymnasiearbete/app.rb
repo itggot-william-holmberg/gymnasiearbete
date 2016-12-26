@@ -112,13 +112,16 @@ class App < Sinatra::Base
         vm_name = params[:vm_name]
         os_id = params[:os_id]
         memory = get_memory(params[:memory])
+        cpu = params[:cpu]
+        disk_size = params[:disk_size]
+
 
         if !Container.first(:name => vm_name).nil?
           flash[:warning_flash] = "Cannot create container. Please try a different name"
           redirect back
         end
 
-        new_container = Container.create(:name => vm_name, :time_created => Time.now, :user_id => @user.id, :os_id => os_id, :memory => memory, :cpu => "1", :active => true)
+        new_container = Container.create(:name => vm_name, :time_created => Time.now, :user_id => @user.id, :os_id => os_id, :memory => memory, :cpu => cpu, :disk_size => disk_size, :active => true)
 
         if !new_container.nil?
           new_order = Order.create(:order_date => Time.now, :user => @user, :container_id => new_container.id)
