@@ -1,15 +1,58 @@
 - if @user
   .container
+    h1 = "Current Containers"
     table
       thead
         tr
           th Name
           th IP Address
           th Created
+          th Active hours
+
+
       tbody
       - if !@containers.nil?
         - @containers.each do |container|
+          - if container.active
+            tr
+              td
+                a href="/container/#{container.name}"= container.name
+              td 127.0.0.1
+              td = container.time_created
+              td = container.hours_active(container.time_created,container.time_deleted)
+    a id="create_container_button" href="/container/create" CREATE CONTAINER
+
+
+    - deleted_exists = false
+    - if !@containers.nil?
+      - @containers.each do |container|
+        - if !container.active
+          - deleted_exists = true
+    - if deleted_exists
+      h1 = "Deleted Containers"
+      table
+        thead
           tr
-            td = container.name
-            td 127.0.0.1
-            td = container.created
+            th Name
+            th IP Address
+            th Created
+            th Active hours
+
+
+        tbody
+        - if !@containers.nil?
+          - @containers.each do |container|
+            - if !container.active
+              tr
+                td
+                  a href="/container/#{container.name}"= container.name
+                td 127.0.0.1
+                td = container.time_created
+                td = container.hours_active(container.time_created, container.time_deleted)
+      - hours = 0
+      - @containers.each do |container|
+        - hours += container.hours_active(container.time_created, container.time_deleted)
+      h1 = "Total amount of active hours: #{hours}"
+
+
+

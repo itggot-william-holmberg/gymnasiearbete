@@ -1,8 +1,30 @@
 - if @user.nil?
-  .login
+  .div
     .logo Project Iaox
-    form action="/login" method="post" id="create_account_form"
-      .text Log In
-      input value="Username" name="username"
-      input type="password" value="password" name="password"
-      input type="submit" value="Login"
+    .login
+      form action="/login" method="post" id="login_account_form"
+        .text Log In
+        input value="Username" name="username"
+        input type="password" value="password" name="password"
+        input type="submit" value="Login"
+        a href="#register" id="register_button" CREATE ACCOUNT
+    .register
+      form action="/register" method="post" id="create_account_form"
+        .text Create account form
+        input value="Username" name="username"
+        input type="password" value="password" name="password"
+        input type="submit" value="Create account"
+        a href="#login" id="login_button" LOGIN
+javascript:
+  $("#register_button").click(function () {
+    $('.login').css('visibility', 'hidden');
+    $('.login').css('display', 'none');
+    $('.register').css('visibility', 'visible');
+    $('.register').css('display', 'block');
+  });
+  $("#login_button").click(function () {
+    $('.login').css('visibility', 'visible');
+    $('.login').css('display', 'block');
+    $('.register').css('visibility', 'hidden');
+    $('.register').css('display', 'none');
+  });

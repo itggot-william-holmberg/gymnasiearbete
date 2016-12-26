@@ -4,7 +4,6 @@
     --text-color: #787878;
 
 }
-
 body {
     background-color: var(--background-color);
     font-family: 'Poiret One', cursive;
@@ -15,7 +14,7 @@ body {
     font-size: 40px;
     margin: 30px auto 30px;
 }
-#create_account_form {
+#create_account_form, #login_account_form {
     background-color: var(--main-color);
     margin: 0 auto;
     width: 400px;
@@ -23,6 +22,11 @@ body {
     border-radius: 5px;
     padding: 40px;
     box-sizing: border-box;
+}
+
+.div a {
+    display: block;
+    text-align: center;
 }
 
 .text {
@@ -69,6 +73,13 @@ input[type=submit]{
     border-radius: 20px;
     position: relative;
     overflow: scroll;
+    text-align: center;
+    display: block;
+}
+
+#create_container_button {
+    display: block;
+    text-align: center;
 }
 table {
     margin: 30px auto;
@@ -108,4 +119,14 @@ th {
     max-height: 100%;
 }
 
+.register {
+    visibility: hidden;
+}
+
+li {
+    display: block;
+    background-color: red;
+    height: 300px;
+    width: 300px;
+}
 

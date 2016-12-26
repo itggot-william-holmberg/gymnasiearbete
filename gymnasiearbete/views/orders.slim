@@ -12,6 +12,12 @@
       h1 = "Containers"
       -@containers.each do |container|
         .containers
-          h3 = "Container name: #{container.name}"
-          p = "Created at: #{container.created}"
+          h3
+            a href="/container/#{container.name}" = "Container name: #{container.name}"
+          p = "Created at: #{container.time_created}"
           p = "OS: #{container.os.name}"
+    - hours = 0
+    - @containers.each do |container|
+      - hours += container.hours_active(container.time_created, container.time_deleted)
+    h1 = "Total amount of active hours: #{hours}"
+    h1 = "Total cost: #{(hours*0.015).round(2)} USD"

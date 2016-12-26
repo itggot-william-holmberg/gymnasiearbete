@@ -20,8 +20,9 @@ html
         li
           a href="/orders" Orders
         li
-          a href="/order" Order
-
+          a href="/container/create" Create container
+    - if !@user.nil?
+      a href="/logout" Logout
 
 
 ==yield

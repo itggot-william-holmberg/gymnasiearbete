@@ -1,0 +1,28 @@
+- if !@real_container.nil?
+    h1 = "Domain name: #{@real_container.name}"
+    p = "Active? #{@real_container.active?}"
+    p = "Max Memory: #{@real_container.max_memory} KB"
+    p = "CPU's: #{@real_container.num_vcpus(0)}"
+    - if !@real_container.active?
+        p = "Memory: Not available when machine is turned off"
+        a href="/domain/#{@real_container.name}/start" = "Start machine"
+    - else
+        p = "Memory: #{@real_container.info.memory} KB"
+        a href="/domain/#{@real_container.name}/shutoff" onclick="return confirm('Are you sure?')" = "Shutoff machine"
+    .flash = flash[:vm_turned_on]
+    .flash = flash[:vm_turned_off]
+    a href="/domain/#{@real_container.name}/delete" onclick="return confirm('Are you sure?')" = "Destroy machine"
+
+- else
+    .container
+        h1 = "HOST IS NOT AVAILABLE"
+        h1 = "Domain name: #{@db_container.name}"
+        h1 = "Max Memory: #{@db_container.memory} KB"
+        h1 = "CPU's: #{@db_container.cpu}"
+        h1 = "Hours active: #{@db_container.hours_active(@db_container.time_created,@db_container.time_deleted) }"
+        p
+          a href="/container/#{@db_container.name}/delete" onclick="return confirm('Are you sure?')" = "Destroy machine"
+
+
+
+

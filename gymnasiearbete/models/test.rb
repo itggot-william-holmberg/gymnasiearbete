@@ -10,21 +10,10 @@ class Test
     end
   end
 
-  def get_memory(memory)
-    if memory == "1"
-      return "256000"
-    elsif memory == "2"
-      return "512000"
-    elsif memory == "3"
-      return "1024000"
-    elsif memory == "4"
-      return "2048048"
-    end
-    return "100000"
-  end
 
-  def new_virtual_machine(conn,name, os, memory)
-    real_memory = get_memory(memory)
+
+  def new_virtual_machine(conn,name, os, real_memory)
+
     if os == "DEBIAN"
       #@UUID = "95a5c047-6457-2c09-e5ff-927cdf34e17b"
       @MAX_MEMORY = "2048048"
