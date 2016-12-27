@@ -286,13 +286,13 @@ class App < Sinatra::Base
   end
 
   def get_memory(memory)
-    if memory == "1"
+    if memory == "256"
       return "256000"
-    elsif memory == "2"
+    elsif memory == "512"
       return "512000"
-    elsif memory == "3"
+    elsif memory == "1024"
       return "1024000"
-    elsif memory == "4"
+    elsif memory == "2048"
       return "2048048"
     end
     return "100000"

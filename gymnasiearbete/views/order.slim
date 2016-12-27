@@ -8,22 +8,22 @@
           option value=os.id = "#{os.name}"
       p = "Disk size"
       select name="disk_size" form="new_machine_form"
-        option value=1 4GB
-        option value=2 8GB
-        option value=3 16GB
-        option value=4 32B
+        option value=4 4GB
+        option value=8 8GB
+        option value=16 16GB
+        option value=32 32B
       p = "CPU"
       select name="cpu" form="new_machine_form"
         option value=1 1 CPU
         option value=2 2 CPU
-        option value=3 4 CPU
-        option value=4 8 CPU
+        option value=4 4 CPU
+        option value=8 8 CPU
       p = "Memory"
       select name="memory" form="new_machine_form"
-        option value=1 256MB
-        option value=2 512MB
-        option value=3 1024MB
-        option value=4 2048MB
+        option value=256 256MB
+        option value=512 512MB
+        option value=1024 1024MB
+        option value=2048 2048MB
       p = "Name of the new virtual machine"
       input type="text" name="vm_name"
       input type="submit" value="CREATE"
