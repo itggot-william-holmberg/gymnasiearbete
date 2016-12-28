@@ -14,8 +14,8 @@
     a href="/domain/#{@real_container.name}/delete" onclick="return confirm('Are you sure?')" = "Destroy machine"
 
 - else
-    .container
-        h1 = "HOST IS NOT AVAILABLE"
+    .container_info
+        h1 id="title" = "HOST IS NOT AVAILABLE"
         h1 = "Domain name: #{@db_container.name}"
         h1 = "Max Memory: #{@db_container.memory} KB"
         h1 = "CPU's: #{@db_container.cpu}"

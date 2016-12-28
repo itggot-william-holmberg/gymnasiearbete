@@ -9,6 +9,7 @@ class Container
   property :memory,         String
   property :active,         Boolean
   property :time_deleted,   Time
+  property :ip,             String
 
   belongs_to :user
   belongs_to :os

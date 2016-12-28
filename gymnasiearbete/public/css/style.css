@@ -1,19 +1,28 @@
-:root {
-    --main-color: white;
-    --background-color: #2d70ff;
-    --text-color: black;
-
-}
 
 *{
     margin: 0px;
     padding: 0px;
 }
+html {
+    height: 100%;
+    width: 100%;
+}
 body {
-    background-color: var(--background-color);
+    background-color: #4a4846;
     font-family: 'Poiret One', cursive;
     text-color: black;
+    height: 100%;
+    width: 100%;
 
+}
+
+.middle_container {
+    background-color: white;
+    width: 80%;
+    height: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
 }
 .logo{
     color: white;
@@ -22,7 +31,7 @@ body {
     margin: 30px auto 30px;
 }
 #create_account_form, #login_account_form {
-    background-color: var(--main-color);
+    background-color: white;
     margin: 0 auto;
     width: 400px;
     height: 400px;
@@ -62,7 +71,7 @@ input[type=submit]:hover{
     font-size: 40px;
     margin-bottom: 40px;
     text-align: center;
-    color: var(--text-color);
+    color: white;
 }
 input {
     margin: 0 auto;
@@ -71,13 +80,12 @@ input {
     width: 250px;
     height: 30px;
     font-size: 15px;
-    text-color: var(--text-color);
+    text-color: white;
 }
 
 .warning_flash{
     margin-left: auto;
     margin-right: auto;
-    margin-top: 15px;
     left: 0;
     right: 0;
     display: none;
@@ -89,7 +97,6 @@ input {
 .successfully_flash{
     margin-left: auto;
     margin-right: auto;
-    margin-top: 15px;
     display: none;
     height: 22px;
     text-color: red;
@@ -100,14 +107,33 @@ input {
 
 .container {
     background-color: white;
-    width: 80%;
-    height: 800px;
     margin: 100px auto;
-    border-radius: 20px;
     position: relative;
-    overflow: scroll;
     text-align: center;
     display: block;
+    overflow: scroll;
+    height: 100%;
+    width: 100%;
+}
+
+.container_info {
+    height: 100%;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container_info h1 {
+    text-align: left;
+    font-size: 40px;
+}
+
+.container_info #title {
+    text-align: center;
+    font-size: 72px;
+    margin-top: 50px;
+    margin-bottom: 150px;
+    color: red;
 }
 
 #create_container_button {
@@ -135,22 +161,79 @@ th {
     margin-right: auto;
 }
 
+.tests {
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+}
+
 .create_container {
     background-color: white;
-    width: 40%;
-    margin-top: 10%;
+    width: 100%;
+    margin-top: 7.5%;
     margin-left: auto;
     margin-right: auto;
     border-radius: 20px;
     overflow: hidden;
+
+}
+
+.create_container h1 {
+    margin-bottom: 20px;
+    font-size: 70px;
+}
+
+
+.create_container p {
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+
+.create_container select{
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+
+.order_and_container_section {
+    height: 600px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.order_section, .container_section {
+    float: left;
+    height: 100%;
+    width: 47.5%;
+    border: solid;
+    border-width: 1px;
+    margin-left: 1.4%;
+}
+
+.payment_section {
+    margin-top: 5%;
+    width: 100%;
+    height: 20%;
 }
 
 .orders, .containers {
+    margin-top: 25px;
     display: block;
-    width: 30%;
-    margin: auto;
-    max-height: 100%;
+    width: 100%;
+    float: left;
+    height: 500px;
+    overflow: scroll;
 }
+
+.orders, .containers h1 {
+    float: left;
+}
+
+.containers a {
+    color: blue;
+}
+
 
 .register {
     visibility: hidden;
@@ -158,20 +241,20 @@ th {
 
 
 .header {
-    height: 50px;
+    background-color: #4a4846;
+    height: 75px;
     width: 100%;
     position: relative;
 }
 
 .header_list {
-    width: 40%;
     list-style-type: none;
     float: right;
 
 }
 .header_list li {
     margin-right: 10px;
-    height: 55px;
+    height: 75px;
     width: 120px;
     display: block;
     float: left;
@@ -179,14 +262,93 @@ th {
 }
 
 .header_list li:hover {
-    background-color: white;
+    background-color: #2f509f;
 
 }
 
 .header_list li a {
     display: block;
-    margin-top: 15px;
+    margin-top: 20px;
     text-align: center;
     text-decoration: none;
+    color: white;
+    font-size: 25px;
+}
+
+#logout_button {
+    margin-right: 0px;
+}
+
+
+.all_containers {
+    height: 100%;
+    width: 100%;
+    overflow: scroll;
+}
+.container_div {
+    display: block;
+    height: 270px;
+    width: 300px;
+    background-color: #3c72e6;
+    float: left;
+    margin-left: 25px;
+    margin-top: 25px;
+    text-align: left;
+}
+
+.container_name {
+    display: block;
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: 30px;
+    text-decoration: none;
+    color: white;
+}
+
+.container_name:hover {
+    text-decoration: underline;
+}
+
+
+.container_div p {
+    display: block;
+    margin-top: 5px;
+    margin-left: 25px;
+    font-size: 15px;
+    text-decoration: none;
+    color: white;
+}
+
+.add_container_button {
+    margin-top: 150px;
+    margin-bottom: 150px;
+    height: 125px;
+    width: 100%;
+    display: inline-block;
+
+}
+
+.add_container_button a {
+
+    width: 130px;
+    height: 130px;
+    border: solid;
+    border-radius: 150px;
+    border-color: grey;
+    text-align: center;
+    font-size: 120px;
+    text-decoration: none;
+    color: white;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: grey;
+}
+
+.add_container_button a:hover {
+    background-color: grey;
     color: black;
 }
+
+
+

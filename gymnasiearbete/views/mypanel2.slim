@@ -1,0 +1,9 @@
+- if !@containers.nil?
+  ul.all_containers
+    - @containers.each do |container|
+      -if container.active
+        li.container_div
+          a.container_name href="/container/#{container.name}" =container.name
+          p.container_ip =container.ip
+    div.add_container_button
+      a href="/container/create" +

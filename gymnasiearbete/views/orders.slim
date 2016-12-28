@@ -1,23 +1,29 @@
 - if @user
   .container
-    h1 = "Orders"
-    - if @orders
-      -@orders.each do |order|
-        .orders
-          h3 = "Order id: #{order.id}"
-          p = "Created by: #{order.user.username}"
-          p = "Order date: #{order.order_date}"
-          p = "Container name: #{order.container.name}"
-
-      h1 = "Containers"
-      -@containers.each do |container|
-        .containers
-          h3
-            a href="/container/#{container.name}" = "Container name: #{container.name}"
-          p = "Created at: #{container.time_created}"
-          p = "OS: #{container.os.name}"
-    - hours = 0
-    - @containers.each do |container|
-      - hours += container.hours_active(container.time_created, container.time_deleted)
-    h1 = "Total amount of active hours: #{hours}"
-    h1 = "Total cost: #{(hours*0.015).round(2)} USD"
+    .tests
+      .order_and_container_section
+        .order_section
+          h1 = "Orders"
+          .orders
+            - if @orders
+              -@orders.each do |order|
+                .order_object
+                  h3 = "Order id: #{order.id}"
+                  p = "Created by: #{order.user.username}"
+                  p = "Order date: #{order.order_date}"
+                  p = "Container name: #{order.container.name}"
+        .container_section
+          h1 = "Containers"
+          .containers
+            -@containers.each do |container|
+              .container_object
+                h3
+                  a href="/container/#{container.name}" = "Container name: #{container.name}"
+                p = "Created at: #{container.time_created}"
+                p = "OS: #{container.os.name}"
+      - hours = 0
+      - @containers.each do |container|
+        - hours += container.hours_active(container.time_created, container.time_deleted)
+      .payment_section
+        h1 = "Total amount of active hours: #{hours}"
+        h1 = "Total cost: #{(hours*0.015).round(2)} USD"

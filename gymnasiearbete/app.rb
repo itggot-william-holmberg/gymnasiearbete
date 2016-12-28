@@ -27,7 +27,8 @@ class App < Sinatra::Base
     end
     @orders = Order.all(:user => @user) if !@user.nil?
     @containers = Container.all(:user => @user) if !@user.nil?
-    slim :mypanel
+    #slim :mypanel
+    slim :mypanel2
   end
 
   get '/orders' do
@@ -83,7 +84,7 @@ class App < Sinatra::Base
         end
         container = test.new_virtual_machine(conn, vm_name, "DEBIAN", memory)
         if !container.nil?
-          @new_container = Container.create(:name => vm_name, :time_created => Time.now, :user_id => @user.id, :os_id => os_id, :active => true)
+          @new_container = Container.create(:name => vm_name, :time_created => Time.now, :user_id => @user.id, :os_id => os_id, :active => true, :ip => "127.0.0.1")
 
           if !new_container.nil?
             new_order = Order.create(:order_date => Time.now, :user => @user, :container_id => new_container.id)
@@ -121,7 +122,7 @@ class App < Sinatra::Base
           redirect back
         end
 
-        new_container = Container.create(:name => vm_name, :time_created => Time.now, :user_id => @user.id, :os_id => os_id, :memory => memory, :cpu => cpu, :disk_size => disk_size, :active => true)
+        new_container = Container.create(:name => vm_name, :time_created => Time.now, :user_id => @user.id, :os_id => os_id, :memory => memory, :cpu => cpu, :disk_size => disk_size, :active => true, :ip => "127.0.0.1")
 
         if !new_container.nil?
           new_order = Order.create(:order_date => Time.now, :user => @user, :container_id => new_container.id)
