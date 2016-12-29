@@ -5,9 +5,7 @@ class App < Sinatra::Base
   use Rack::Flash
 
   get '/' do
-    #only give @conn to user who has access.
-    @conn = Test.new.get_connection
-  	slim :index
+  	redirect '/mypanel'
   end
 
   get '/login' do
@@ -27,8 +25,13 @@ class App < Sinatra::Base
     end
     @orders = Order.all(:user => @user) if !@user.nil?
     @containers = Container.all(:user => @user) if !@user.nil?
-    #slim :mypanel
-    slim :mypanel2
+    if @user.mypanel_theme == 1
+      slim :mypanel1
+    elsif @user.mypanel_theme == 2
+      slim :mypanel2
+    else
+      slim :mypanel2
+    end
   end
 
   get '/orders' do
@@ -41,7 +44,7 @@ class App < Sinatra::Base
     slim :orders
   end
 
-  get '/container/create' do
+  get '/order/create' do
     @user = User.get(session[:user]) if session[:user]
     if !@user.nil?
       @os = Os.all
@@ -54,7 +57,9 @@ class App < Sinatra::Base
 
 
 
-  post '/container/create' do
+
+
+  post '/order/create' do
     test = Test.new
     conn = test.get_connection
     @user = User.get(session[:user]) if session[:user]
@@ -82,9 +87,9 @@ class App < Sinatra::Base
           flash[:warning_flash] = "Cannot create container. Please try a different name"
           redirect back
         end
-        container = test.new_virtual_machine(conn, vm_name, "DEBIAN", memory)
+        container = test.new_virtual_machine(conn, vm_name.upcase, "DEBIAN", memory)
         if !container.nil?
-          @new_container = Container.create(:name => vm_name, :time_created => Time.now, :user_id => @user.id, :os_id => os_id, :active => true, :ip => "127.0.0.1")
+          @new_container = Container.create(:name => vm_name.upcase, :time_created => Time.now, :user_id => @user.id, :os_id => os_id, :active => true, :ip => "127.0.0.1", :running => true)
 
           if !new_container.nil?
             new_order = Order.create(:order_date => Time.now, :user => @user, :container_id => new_container.id)
@@ -122,7 +127,7 @@ class App < Sinatra::Base
           redirect back
         end
 
-        new_container = Container.create(:name => vm_name, :time_created => Time.now, :user_id => @user.id, :os_id => os_id, :memory => memory, :cpu => cpu, :disk_size => disk_size, :active => true, :ip => "127.0.0.1")
+        new_container = Container.create(:name => vm_name.upcase, :time_created => Time.now, :user_id => @user.id, :os_id => os_id, :memory => memory, :cpu => cpu, :disk_size => disk_size, :active => true, :ip => "127.0.0.1", :running => true)
 
         if !new_container.nil?
           new_order = Order.create(:order_date => Time.now, :user => @user, :container_id => new_container.id)
@@ -144,6 +149,39 @@ class App < Sinatra::Base
       flash[:warning_flash] = "You do not have access to this page"
       redirect back
       end
+  end
+
+  get '/container/:vm/edit' do |vm|
+    @user = User.get(session[:user]) if session[:user]
+    if !@user.nil?
+      @db_container = Container.first(:user_id => @user.id, :name => vm)
+      if !@db_container.nil?
+      slim :editcontainer
+      end
+    else
+      flash[:failed_login] = "You need to sign in for access to this page."
+      slim :login
+    end
+  end
+
+  post'/container/:vm/edit' do |vm|
+    @user = User.get(session[:user]) if session[:user]
+    if !@user.nil?
+      db_container = Container.first(:user_id => @user.id, :name => vm)
+      if !db_container.nil?
+        memory = get_memory(params[:memory])
+        cpu = params[:cpu]
+        db_container.update(:cpu => cpu, :memory => memory)
+        flash[:successfully_flash] = "You successfully updated your container."
+        redirect "/container/#{vm}"
+      else
+        flash[:warning_flash] = "You do not have access to this page"
+        redirect 'back'
+      end
+    else
+      flash[:warning_flash] = "Please login."
+      redirect '/login'
+    end
   end
 
   get '/vnc' do
@@ -214,39 +252,57 @@ class App < Sinatra::Base
 
 
   get '/container/:vm/start' do |vm|
-    @conn = Test.new.get_connection
-    begin
-      @container = @conn.lookup_domain_by_name(vm)
-    rescue
-      @container = nil
-    end
+    @user = User.get(session[:user]) if session[:user]
+    if !@user.nil?
+      db_container = Container.first(:name => vm, :user => @user)
+      if !db_container.nil?
+        db_container.update(:running => true)
+        @conn = Test.new.get_connection
+        begin
+          @container = @conn.lookup_domain_by_name(vm)
+        rescue
+          @container = nil
+        end
 
-    if !@container.nil? && !@container.active?
-      @container.create
-      flash[:successfully_flash] = "VM was sucessfully turned on"
-      redirect back
-    else
-      flash[:warning_flash] = "Could not start the virtual machine. Either you lack access or the domain is already turned on."
-      redirect back
+        if !@container.nil? && @container.active?
+          @container.create
+          flash[:successfully_flash] = "The virtual machine was sucessfully turned on"
+          redirect back
+        else
+          flash[:warning_flash] = "Could not start the virtual machine. The host-server may be offline!"
+          redirect back
+        end
+      end
     end
+    flash[:warning_flash] = "You do not have access to this page."
+    redirect back
   end
 
   get '/container/:vm/shutoff' do |vm|
-    @conn = Test.new.get_connection
-    begin
-      @container = @conn.lookup_domain_by_name(vm)
-    rescue
-      @container = nil
-    end
+    @user = User.get(session[:user]) if session[:user]
+    if !@user.nil?
+    db_container = Container.first(:name => vm, :user => @user)
+      if !db_container.nil?
+        db_container.update(:running => false)
+        @conn = Test.new.get_connection
+        begin
+          @container = @conn.lookup_domain_by_name(vm)
+        rescue
+          @container = nil
+        end
 
-    if !@container.nil? && @container.active?
-      @container.destroy
-      flash[:warning_flash] = "VM was sucessfully turned off"
-      redirect back
-    else
-      flash[:warning_flash] = "Could not shutoff the virtual machine. Either you lack access or the domain is already turned off."
-      redirect back
+        if !@container.nil? && @container.active?
+          @container.destroy
+          flash[:successfully_flash] = "VM was sucessfully turned off"
+          redirect back
+        else
+          flash[:warning_flash] = "Could not shutoff the virtual machine. The host-server may be offline!"
+          redirect back
+        end
+      end
     end
+    flash[:warning_flash] = "You do not have access to this page."
+    redirect back
   end
 
   get '/container/:vm/delete' do |vm|

@@ -4,6 +4,16 @@
       -if container.active
         li.container_div
           a.container_name href="/container/#{container.name}" =container.name
-          p.container_ip =container.ip
+          p =container.ip
+          p ="Is container running?: #{container.running}"
+          p = "Hours active: #{container.hours_active }"
+          p = "CPU's: #{container.check_real_cpu}"
+          p = "Memory: #{container.check_real_memory} KB"
+          p = "Disk Size: #{container.disk_size} GB"
+          - if container.check_real_running
+              a.running_bar title="click if you want to turn of the machine" href="/container/#{container.name}/shutoff"
+                span title="click if you want to turn off the machine"
+          - else
+              a.not_running_bar title="click if you want to turn on the machine" href="/container/#{container.name}/start"
     div.add_container_button
-      a href="/container/create" +
+      a href="/order/create" +

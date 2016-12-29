@@ -15,14 +15,21 @@
 
 - else
     .container_info
-        h1 id="title" = "HOST IS NOT AVAILABLE"
+        h1 id="title" = "SERVER IS NOT AVAILABLE"
         h1 = "Domain name: #{@db_container.name}"
-        h1 = "Max Memory: #{@db_container.memory} KB"
-        h1 = "CPU's: #{@db_container.cpu}"
+        h1 = "CPU's: #{@db_container.check_real_cpu}"
+        h1 = "Memory: #{@db_container.check_real_memory} KB"
         h1 = "Disk Size: #{@db_container.disk_size} GB"
-        h1 = "Hours active: #{@db_container.hours_active(@db_container.time_created,@db_container.time_deleted) }"
+        h1 = "Active? #{@db_container.active}"
+        h1 = "Hours active: #{@db_container.hours_active }"
+        - if !@db_container.check_real_running
+            a href="/container/#{@db_container.name}/start" = "Start machine"
+        - else
+            a href="/container/#{@db_container.name}/shutoff" onclick="return confirm('Are you sure?')" = "Shutoff machine"
         p
-          a href="/container/#{@db_container.name}/delete" onclick="return confirm('Are you sure?')" = "Destroy machine"
+          a href="/container/#{@db_container.name}/delete" onclick="return confirm('Are you sure?')" = "Destroy container"
+        p
+          a href="/container/#{@db_container.name}/edit" onclick="return confirm('Are you sure?')" = "Edit container"
 
 
 

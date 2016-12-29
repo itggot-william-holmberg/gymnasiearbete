@@ -12,7 +12,7 @@ class Seeder
   end
 
   def self.container
-    Container.create(:name => "TestVM", :time_created => Time.now, :user_id => 1, :os_id => 1, :memory => 1024000, :cpu => 2, :active => true, :ip => "127.0.0.1")
+    Container.create(:name => "TestVM", :time_created => Time.now, :user_id => 1, :os_id => 1, :memory => "1024000", :disk_size => "4000000", :cpu => "2", :active => true, :ip => "127.0.0.1", :running => true)
   end
 
   def self.os

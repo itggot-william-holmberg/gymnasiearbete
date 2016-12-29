@@ -1,0 +1,21 @@
+- if !@user.nil? && !@db_container.nil?
+  .create_container
+    h1 = "Edit container: #{@db_container.name}"
+    form action="/container/#{@db_container.name}/edit" method="post" id="new_machine_form"
+      p = "OS type can not be edited, please contact admin."
+      p = "Disk size can not be edited, please contact admin."
+      p = "CPU"
+      select name="cpu" form="new_machine_form"
+        option value=1 1 CPU
+        option value=2 2 CPU
+        option value=4 4 CPU
+        option value=8 8 CPU
+      p = "Memory"
+      select name="memory" form="new_machine_form"
+        option value=256 256MB
+        option value=512 512MB
+        option value=1024 1024MB
+        option value=2048 2048MB
+      input type="submit" value="Update"
+- else
+  p = "You are not supposed to be here."

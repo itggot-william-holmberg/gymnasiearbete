@@ -1,7 +1,7 @@
 - if !@user.nil?
   .create_container
     h1 = "Create container"
-    form action="/container/create" method="post" id="new_machine_form"
+    form action="/order/create" method="post" id="new_machine_form"
       p = "Select which OS type you want to use"
       select name="os_id" form="new_machine_form"
         - @os.each do |os|

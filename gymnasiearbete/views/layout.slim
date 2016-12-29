@@ -15,14 +15,14 @@ html
       .header
         ul class="header_list"
           li
-            a href="/" Home
+            a.head_item href="/mypanel" MyPanel
           li
-            a href="/mypanel" MyPanel
-          li
-            a href="/orders" Orders
-          li
-            a href="/container/create" Create
+            a.head_item href="/order/create" Create
           - if !@user.nil?
-            li id="logout_button"
-              a href="/logout" Logout
+            li.user_dropdown
+              a.head_item id="user_head" = @user.username
+              .dropdown_content
+                a href="#" Settings
+                a href="/orders" Orders
+                a href="/logout" Logout
       ==yield
