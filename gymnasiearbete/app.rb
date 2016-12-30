@@ -60,8 +60,8 @@ class App < Sinatra::Base
 
 
   post '/order/create' do
-    test = Test.new
-    conn = test.get_connection
+    hypervisor = Hypervisor.new
+    conn = Hypervisor.get_connection
     @user = User.get(session[:user]) if session[:user]
     if !conn.nil?
       if !@user.nil?
@@ -69,7 +69,7 @@ class App < Sinatra::Base
         os_id = params[:os_id]
         memory = get_memory(params[:memory])
         begin
-          if !test.get_connection.lookup_domain_by_name(vm_name).nil?
+          if !hypervisor.get_connection.lookup_domain_by_name(vm_name).nil?
             flash[:warning_flash] = "Cannot create VM. Please try a different name"
             redirect back
             return
@@ -87,7 +87,7 @@ class App < Sinatra::Base
           flash[:warning_flash] = "Cannot create container. Please try a different name"
           redirect back
         end
-        container = test.new_virtual_machine(conn, vm_name.upcase, "DEBIAN", memory)
+        container = hypervisor.new_virtual_machine(conn, vm_name.upcase, "DEBIAN", memory)
         if !container.nil?
           @new_container = Container.create(:name => vm_name.upcase, :time_created => Time.now, :user_id => @user.id, :os_id => os_id, :active => true, :ip => "127.0.0.1", :running => true)
 
@@ -236,7 +236,7 @@ class App < Sinatra::Base
     else
       @db_container = Container.first(:user_id => @user.id, :name => vm)
       if !@db_container.nil?
-        @conn = Test.new.get_connection
+        @conn = Hypervisor.new.get_connection
         begin
           @real_container = @conn.lookup_domain_by_name(vm)
         rescue
@@ -257,7 +257,7 @@ class App < Sinatra::Base
       db_container = Container.first(:name => vm, :user => @user)
       if !db_container.nil?
         db_container.update(:running => true)
-        @conn = Test.new.get_connection
+        @conn = Hypervisor.new.get_connection
         begin
           @container = @conn.lookup_domain_by_name(vm)
         rescue
@@ -284,7 +284,7 @@ class App < Sinatra::Base
     db_container = Container.first(:name => vm, :user => @user)
       if !db_container.nil?
         db_container.update(:running => false)
-        @conn = Test.new.get_connection
+        @conn = Hypervisor.new.get_connection
         begin
           @container = @conn.lookup_domain_by_name(vm)
         rescue
@@ -310,7 +310,7 @@ class App < Sinatra::Base
     db_container = Container.first(:name => vm, :user => @user)
     if !db_container.nil?
       db_container.update(:active => false, :time_deleted => Time.now)
-      real_container = Test.new.get_connection
+      real_container = Hypervisor.new.get_connection
       if !real_container.nil?
         begin
           container = real_container.lookup_domain_by_name(vm)

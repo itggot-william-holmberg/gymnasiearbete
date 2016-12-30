@@ -12,17 +12,16 @@ html
     .middle_container
       .warning_flash = flash[:warning_flash]
       .successfully_flash = flash[:successfully_flash]
-      .header
-        ul class="header_list"
-          li
-            a.head_item href="/mypanel" MyPanel
-          li
-            a.head_item href="/order/create" Create
-          - if !@user.nil?
-            li.user_dropdown
-              a.head_item id="user_head" = @user.username
-              .dropdown_content
-                a href="/settings" Settings
-                a href="/orders" Orders
-                a href="/logout" Logout
+      - if !@user.nil?
+        .header
+            h1.header_logo Vircon
+            ul class="header_list"
+                li
+                  a.head_item href="/mypanel" MyPanel
+                li.user_dropdown
+                  a.head_item id="user_head" = @user.username
+                  .dropdown_content
+                    a href="/settings" Settings
+                    a href="/orders" Orders
+                    a href="/logout" Logout
       ==yield

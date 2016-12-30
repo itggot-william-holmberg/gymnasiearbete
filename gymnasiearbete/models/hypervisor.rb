@@ -1,5 +1,5 @@
 require 'libvirt'
-class Test
+class Hypervisor
 
   def get_connection
     begin
@@ -15,7 +15,6 @@ class Test
   def new_virtual_machine(conn,name, os, real_memory)
 
     if os == "DEBIAN"
-      #@UUID = "95a5c047-6457-2c09-e5ff-927cdf34e17b"
       @MAX_MEMORY = "2048048"
       @MEMORY = real_memory
       @INSTALLATION_IMAGE = "/iso/debian8gnome.iso"
@@ -27,6 +26,7 @@ class Test
       #  <uuid>#{@UUID}</uuid>
       #Should be random generated in the future.
       new_dom_xml = <<EOF
+
 <domain type='kvm'>
   <name>#{name}</name>
   <memory>#{@MAX_MEMORY}</memory>

@@ -1,6 +1,8 @@
 - if @user
   .settings
-    h1 CHOOSE MYPANEL THEME
+
+    h1.title SETTINGS
+    h1 UPDATE MYPANEL THEME
     form action="/settings/update" method="post"
       ul
         -2.times do |time|
@@ -11,4 +13,4 @@
               input type="radio" name="mypanel_theme" value=time+1
             p=time+1
             - time +=1
-      input type="submit"
+      input type="submit" value="Update"

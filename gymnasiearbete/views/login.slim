@@ -1,16 +1,15 @@
 - if @user.nil?
   .div
-    .logo Project Iaox
+    .logo Vircon
     .login
       form action="/login" method="post" id="login_account_form"
-        .text Log In
         input value="Username" name="username"
         input type="password" value="password" name="password"
         input href="#login" type="submit" value="Login"
         a href="#register" id="register_button" CREATE ACCOUNT
     .register
       form action="/register" method="post" id="create_account_form"
-        .text Create account form
+        .text Create account
         input value="Username" name="username"
         input type="password" value="password" name="password"
         input type="submit" value="Create account"

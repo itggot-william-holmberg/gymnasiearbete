@@ -26,10 +26,10 @@ body {
     overflow: hidden;
 }
 .logo{
-    color: white;
+    color: grey;
     text-align: center;
-    font-size: 40px;
-    margin: 30px auto 30px;
+    font-size: 60px;
+    margin: 125px auto 15px;
 }
 #create_account_form, #login_account_form {
     background-color: white;
@@ -72,7 +72,7 @@ input[type=submit]:hover{
     font-size: 40px;
     margin-bottom: 40px;
     text-align: center;
-    color: white;
+    color: grey;
 }
 input {
     margin: 0 auto;
@@ -270,6 +270,14 @@ th {
 
 }
 
+.header_logo {
+    float: left;
+    color: white;
+    font-size: 45px;
+    margin-left: 15px;
+    margin-top: 10px;
+}
+
 .head_item {
     display: block;
     margin-top: 20px;
@@ -426,6 +434,19 @@ th {
 
 .user_dropdown:hover .dropdown_content {
     display: block;
+}
+
+.settings {
+    margin-top: 100px;
+}
+
+.settings h1 {
+    margin-bottom: 20px;
+}
+
+.settings h1.title {
+    font-size: 70px;
+    margin-bottom: 150px;
 }
 
 .settings li {
