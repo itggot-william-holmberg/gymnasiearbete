@@ -1,0 +1,14 @@
+- if @user
+  .settings
+    h1 CHOOSE MYPANEL THEME
+    form action="/settings/update" method="post"
+      ul
+        -2.times do |time|
+          li
+            -if (time+1) == @user.mypanel_theme
+              input type="radio" checked="checked" name="mypanel_theme" value=time+1
+            -else
+              input type="radio" name="mypanel_theme" value=time+1
+            p=time+1
+            - time +=1
+      input type="submit"

@@ -342,6 +342,24 @@ class App < Sinatra::Base
     end
   end
 
+  get '/settings' do
+    @user = User.get(session[:user]) if session[:user]
+    if @user
+      slim :settings
+    else
+      slim :login
+    end
+  end
+
+  post '/settings/update' do
+    @user = User.get(session[:user]) if session[:user]
+    if @user
+      @user.update(:mypanel_theme => params[:mypanel_theme])
+      flash[:successfully_flash] = "You successfully updated your profile"
+    end
+    redirect back
+  end
+
   def get_memory(memory)
     if memory == "256"
       return "256000"

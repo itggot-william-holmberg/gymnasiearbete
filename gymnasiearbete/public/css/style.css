@@ -115,6 +115,7 @@ input {
     overflow: scroll;
     height: 100%;
     width: 100%;
+    z-index: 1;
 }
 
 .container_info {
@@ -246,6 +247,7 @@ th {
     height: 75px;
     width: 100%;
     position: relative;
+    z-index: 2;
 }
 
 .header_list {
@@ -364,9 +366,9 @@ th {
     float: right;
     margin-top: 10px;
     margin-right: 10px;
-    border: 2px solid white;
-    border-top: 2px solid #b7b7b7;
-    animation: spin 3s linear infinite;
+    border: 1px solid white;
+    border-top: 1px solid #b7b7b7;
+    animation: spin 10s linear infinite;
 }
 
 @keyframes spin {
@@ -406,7 +408,6 @@ th {
     width: 120px;
     max-width: 120px;
     background-color: grey;
-    z-index: 1;
 }
 
 .dropdown_content a {
@@ -416,6 +417,7 @@ th {
     text-decoration: none;
     display: block;
     font-size: 20px;
+    z-index: 1;
 }
 
 .dropdown_content a:hover {
@@ -424,4 +426,24 @@ th {
 
 .user_dropdown:hover .dropdown_content {
     display: block;
+}
+
+.settings li {
+    margin-left: auto;
+    margin-right: auto;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    list-style-type: none;
+}
+
+.settings p{
+    display: inline-block;
+    color: black;
+    text-align: center;
+}
+.settings input[type=radio] {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
 }
