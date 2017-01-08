@@ -351,7 +351,7 @@ class App < Sinatra::Base
     end
   end
 
-  post '/settings/update' do
+  post '/settings/update/theme' do
     @user = User.get(session[:user]) if session[:user]
     if @user
       @user.update(:mypanel_theme => params[:mypanel_theme])
@@ -359,6 +359,19 @@ class App < Sinatra::Base
     end
     redirect back
   end
+
+  post '/settings/update/password' do
+    @user = User.get(session[:user]) if session[:user]
+    if @user && @user.password == params[:current_password]
+      @user.update(:password => params[:new_password])
+      flash[:successfully_flash] = "You successfully changed password"
+    else
+      flash[:warning_flash] = "Wrong password. Please try agian."
+    end
+    redirect back
+  end
+
+
 
   def get_memory(memory)
     if memory == "256"

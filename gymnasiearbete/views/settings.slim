@@ -3,7 +3,7 @@
 
     h1.title SETTINGS
     h1 UPDATE MYPANEL THEME
-    form action="/settings/update" method="post"
+    form action="/settings/update/theme" method="post"
       ul
         -2.times do |time|
           li
@@ -11,6 +11,13 @@
               input type="radio" checked="checked" name="mypanel_theme" value=time+1
             -else
               input type="radio" name="mypanel_theme" value=time+1
-            p=time+1
+            p.radio_button=time+1
             - time +=1
+      input type="submit" value="Update"
+    form action="/settings/update/password" method="post"
+      h1 CHANGE PASSWORD
+      p Current password
+      input type="password" name="current_password"
+      p New Password
+      input type="password" name="new_password"
       input type="submit" value="Update"

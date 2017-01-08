@@ -13,7 +13,8 @@ body {
     text-color: black;
     height: 100%;
     width: 100%;
-
+    min-width: 355px;
+    width: auto !important;
 
 }
 
@@ -211,6 +212,7 @@ th {
     border: solid;
     border-width: 1px;
     margin-left: 1.4%;
+    border-radius: 10px;
 }
 
 .payment_section {
@@ -441,8 +443,10 @@ th {
 }
 
 .settings h1 {
+    margin-top: 70px;
     margin-bottom: 20px;
 }
+
 
 .settings h1.title {
     font-size: 70px;
@@ -459,12 +463,30 @@ th {
 }
 
 .settings p{
-    display: inline-block;
+    display: block;
     color: black;
     text-align: center;
 }
+
+.settings p.radio_button{
+    display: inline-block;
+}
+
 .settings input[type=radio] {
     display: inline-block;
     width: 20px;
     height: 20px;
+}
+
+@media screen and (max-width: 500px){
+    h1.header_logo{
+        display: none;
+        visibility: hidden;
+    }
+    ul.header_list {
+        display: block;
+        margin-right: 15%;
+    }
+    .order_and_container_section {
+    }
 }
